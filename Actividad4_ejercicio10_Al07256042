@@ -1,0 +1,68 @@
+print("Ejercicio 10: Permisos en el sistema de pedidos")
+print("Nombre: Melanny Monserrath Covarrubias Zavala")
+print("Matrícula: AL07256042")
+print()
+
+# Permisos del sistema. Cada uno es un bit
+VER = 1 << 0
+CREAR = 1 << 1
+APROBAR = 1 << 2
+EXPORTAR = 1 << 3
+
+# 0001 = 1
+# 0010 = 2
+# 0100 = 4
+# 1000 = 8
+
+print("Puestos: 1 = Practicante, 2 = Vendedor, 3 = Gerente")
+
+puesto = input("Número de puesto del empleado: ")
+capacitacion = input("¿Tomó la capacitación de comercio exterior? (si/no): ")
+vacaciones = input("¿Está de vacaciones? (si/no): ")
+
+# 1. Asigna los permisos de cada puesto
+if puesto == "1":
+    permisos = VER
+elif puesto == "2":
+    permisos = VER | CREAR
+elif puesto == "3":
+    permisos = VER | CREAR | APROBAR | EXPORTAR
+else:
+    permisos = 0
+    print("Puesto no válido. El empleado se queda sin permisos.")
+
+# 2. Si tomó la capacitación, agrega el permiso de EXPORTAR
+if capacitacion == "si":
+    permisos = permisos | EXPORTAR
+
+# 3. Si está de vacaciones, quita el permiso de APROBAR
+if vacaciones == "si":
+    permisos = permisos & ~APROBAR
+
+print()
+print("===== PERMISOS DEL EMPLEADO =====")
+print("Permisos finales:", format(permisos, "04b"), "=", permisos)
+
+# 4. Revisa si tiene el permiso de EXPORTAR
+if (permisos & EXPORTAR) != 0:
+    print("Puede firmar pedimentos de exportación.")
+else:
+    print("No puede firmar pedimentos de exportación.")
+
+# 5. Para liberar un pedido internacional necesita CREAR y EXPORTAR
+requeridos = CREAR | EXPORTAR
+
+# 6. Revisa que todos los permisos requeridos estén encendidos
+if (permisos & requeridos) == requeridos:
+    print("Puede liberar pedidos internacionales.")
+else:
+    # 7. Identifica los permisos que le faltan
+    faltan = requeridos & ~permisos
+
+    print("No puede liberar pedidos internacionales. Le falta:", format(faltan, "04b"))
+
+    if (faltan & CREAR) != 0:
+        print("- Permiso para crear pedidos")
+
+    if (faltan & EXPORTAR) != 0:
+        print("- Permiso de exportación")

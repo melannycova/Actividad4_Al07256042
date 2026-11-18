@@ -1,0 +1,35 @@
+print("Ejercicio 7: Pedidos que se duplican")
+print("Nombre: Melanny Monserrath Covarrubias Zavala")
+print("Matrícula: AL07256042")
+print()
+
+# Un cliente nuevo hace un pedido de prueba y lo duplica cada mes
+cajas = int(input("Cajas del pedido de prueba: "))
+meses = int(input("¿Cuántos meses se duplica el pedido?: "))
+
+# <<: correr los bits a la izquierda multiplica por 2
+pedido_final = cajas << meses
+
+print()
+print("===== PROYECCIÓN DEL PEDIDO =====")
+print("Pedido de prueba:", cajas, "cajas • binario:", format(cajas, "b"))
+
+print("Pedido después de", meses, "meses:", pedido_final, "cajas • binario:", format(pedido_final, "b"))
+
+# Comprobación con multiplicación
+print("Comprobación con multiplicación:", cajas * 2 ** meses)
+
+# >>: correr los bits a la derecha divide entre 2
+monterrey = pedido_final >> 1
+guadalajara = pedido_final >> 2
+cdmx = pedido_final >> 3
+
+# Lo que sobra se queda en la reserva
+reserva = pedido_final - monterrey - guadalajara - cdmx
+
+print()
+print("===== REPARTO EN BODEGAS =====")
+print("Monterrey (la mitad):", monterrey)
+print("Guadalajara (la cuarta parte):", guadalajara)
+print("CDMX (la octava parte):", cdmx)
+print("Reserva:", reserva)

@@ -1,0 +1,53 @@
+print("Ejercicio 8: Tablero del almacén refrigerado")
+print("Nombre: Melanny Monserrath Covarrubias Zavala")
+print("Matrícula: AL07256042")
+print()
+
+# Cada equipo del almacén es un bit (1 = encendido, 0 = apagado)
+# 1 = Refrigeración, 2 = Luces, 4 = Alarma, 8 = Banda transportadora
+
+print("Equipos: 1 = Refrigeración, 2 = Luces, 4 = Alarma, 8 = Banda transportadora")
+
+estado = int(input("Código de los equipos encendidos ahora (0 a 15): "))
+cambio = int(input("¿Qué equipo quieres prender o apagar? (1, 2, 4 u 8): "))
+
+print()
+print("===== TABLERO DEL ALMACÉN =====")
+
+# Validar que el código sea correcto
+if not (cambio == 1 or cambio == 2 or cambio == 4 or cambio == 8):
+    print("Código de equipo no válido. Usa 1, 2, 4 u 8.")
+
+else:
+    # ^: cambia solamente el bit elegido
+    nuevo = estado ^ cambio
+
+    # ~: invierte todos los bits y & 15 conserva solamente 4 bits
+    apagados = ~nuevo & 15
+
+    print("Antes:", format(estado, "04b"))
+    print("Cambio:", format(cambio, "04b"))
+    print("Después:", format(nuevo, "04b"), "=", nuevo)
+    print("Apagados:", format(apagados, "04b"), "=", apagados)
+
+    print()
+    print("Equipos APAGADOS:")
+
+    if (apagados & 1) != 0:
+        print("- Refrigeración")
+
+    if (apagados & 2) != 0:
+        print("- Luces")
+
+    if (apagados & 4) != 0:
+        print("- Alarma")
+
+    if (apagados & 8) != 0:
+        print("- Banda transportadora")
+
+    if apagados == 0:
+        print("- Ninguno. Todo está encendido.")
+
+    # La refrigeración nunca debe estar apagada
+    if (nuevo & 1) == 0:
+        print("ALERTA: la refrigeración está apagada. Revisa la mercancía perecedera.")
